@@ -15,6 +15,6 @@ MonoBehaviour:
   cardId: 2
   cost: 1
   HP: 10
-  icon: {fileID: -8829096775143432608, guid: 8f5885b39f3ad374f836c723ce642ce8, type: 3}
+  icon: {fileID: 21300000, guid: 05328a51e922148499609442185ca0c6, type: 3}
   Attack: 1
   AttackType: 2

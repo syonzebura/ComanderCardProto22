@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec43db80302ef4e70acb84590b519ce3, type: 3}
-  m_Name: Card3
+  m_Name: Card4
   m_EditorClassIdentifier: 
-  cardId: 3
-  cost: 1
-  HP: 10
-  icon: {fileID: 21300000, guid: 19f0839c7b823427a90ea7778c8f2d90, type: 3}
+  cardId: 4
+  cost: 2
+  HP: 15
+  icon: {fileID: 21300000, guid: 667901300568941bf979918506ce5160, type: 3}
   Attack: 1
-  AttackType: 3
+  AttackType: 4

@@ -36,6 +36,16 @@ public class balletController : MonoBehaviour
             collision.gameObject.GetComponent<CardController>().Damage();//当たったカードにダメージ
             Destroy(gameObject);
         }
+        else if(collision.gameObject.tag== "EnemyLeader")//敵リーダーにぶつかった際の処理
+        {
+            GameManager.instance.LeaderHP(false);//敵リーダーにぶつかった際の処理
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.tag == "PlayerLeader")//自分リーダーにぶつかった際の処理
+        {
+            GameManager.instance.LeaderHP(true);//味方リーダーにぶつかった際の処理
+            Destroy(gameObject);
+        }
         else
         {
             return;
@@ -44,6 +54,18 @@ public class balletController : MonoBehaviour
         
         //Destroy(this);
     }
+
+    
+    private void OnTriggerExit2D(Collider2D collision)//画面外にでたら消す
+    {
+        if (collision.gameObject.tag == "BalletArea")
+        {
+            Destroy(gameObject);
+        }
+    }
+    
+
+
 
 
 }

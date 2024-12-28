@@ -44,6 +44,20 @@ public class balletGanarater : MonoBehaviour
                 balletController Ibc3 = Instantiate(bc, this.costIcom.transform);
                 Ibc3.GetComponent<balletController>().SetBalletRotation(-45);//角度を引数に指定
                 break;
+            case 4:
+                balletController Ibc4_1 = Instantiate(bc, this.costIcom.transform);
+                Ibc4_1.GetComponent<balletController>().SetBalletRotation(45);//角度を引数に指定
+                balletController Ibc4_2 = Instantiate(bc, this.costIcom.transform);
+                Ibc4_2.GetComponent<balletController>().SetBalletRotation(-45);//角度を引数に指定
+                break;
+            case 5:
+                balletController Ibc5_1 = Instantiate(bc, this.costIcom.transform);
+                Ibc5_1.GetComponent<balletController>().SetBalletRotation(0);//角度を引数に指定
+                balletController Ibc5_2 = Instantiate(bc, this.costIcom.transform);
+                Ibc5_2.GetComponent<balletController>().SetBalletRotation(45);//角度を引数に指定
+                balletController Ibc5_3 = Instantiate(bc, this.costIcom.transform);
+                Ibc5_3.GetComponent<balletController>().SetBalletRotation(-45);//角度を引数に指定
+                break;
         }
         
         /*

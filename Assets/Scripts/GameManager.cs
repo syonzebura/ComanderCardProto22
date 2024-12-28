@@ -13,12 +13,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text playerDefaultManaPointText;
     public int playerManaPoint;//使用すると減るマナポイント
     public int playerDefaultManaPoint;//毎ターン増えていくベースのマナポイント
+    [SerializeField] GameObject ManaGage;//マナゲージ
+    private bool managanarateBool = true;//マナ生成のbool
 
     //敵生成のbool
     private bool enemyGanarateBool=true;
     //敵の位置取得用のスクリプト取得
     //private OnCardCheck check;
     [SerializeField] Transform EF1, EF2, EF3, EF4, EF5;
+
+    //以下、リーダー関連
+    [SerializeField] Text playerLeaderHPText;//HPのテキスト
+    [SerializeField] Text enemyLeaderHPText;
+    private int playerLeaderHP=50;//HPの変数
+    private int enemyLeaderHP=50;
 
     //以下、GameManagerのstatic化
     public static GameManager instance;
@@ -78,7 +86,11 @@ public class GameManager : MonoBehaviour
      
             
         }
-        
+        if (managanarateBool == true)
+        {
+            StartCoroutine("GanarateMana");
+            managanarateBool = false;
+        }
 
 
     }
@@ -87,7 +99,9 @@ public class GameManager : MonoBehaviour
 
     void StartGame()
     {
-        
+        //各プレイヤーのHP表示
+        playerLeaderHPText.text = playerLeaderHP.ToString();
+        enemyLeaderHPText.text = enemyLeaderHP.ToString();
 
         //マナの初期値設定
         playerManaPoint = 5;
@@ -119,10 +133,42 @@ public class GameManager : MonoBehaviour
     public void ReduceManaPoint(int cost) // コストの分、マナポイントを減らす
     {
         playerManaPoint -= cost;
+        if (playerManaPoint == 0)
+        {
+            playerManaPointText.color = Color.red;
+        }
+        else
+        {
+            playerManaPointText.color = Color.white;
+        }
         ShowManaPoint();
 
         SetCanUsePanelHand();
+        
     }
+    //以下、マナ生成AND管理
+    IEnumerator GanarateMana()
+    {
+        yield return new WaitForSeconds(0.01f);
+        this.ManaGage.GetComponent<Image>().fillAmount += 0.002f;//ココで速度変えるのがベストか
+        if (this.ManaGage.GetComponent<Image>().fillAmount == 1)//もしゲージが満タンになったら
+        {
+            this.ManaGage.GetComponent<Image>().fillAmount = 0;//ゲージリセット
+            if (playerManaPoint != playerDefaultManaPoint)//マナが満タンでないなら
+            {
+                playerManaPoint += 1;
+                ShowManaPoint();
+                playerManaPointText.color = Color.white;
+                SetCanUsePanelHand();
+            }
+            
+        }
+        managanarateBool = true;
+    }
+
+
+
+
 
     //
     //以下、手札系
@@ -142,6 +188,7 @@ public class GameManager : MonoBehaviour
                 card.view.SetCanUsePanel(card.model.canUse);
             }
         }
+        
 
     }
 
@@ -153,7 +200,7 @@ public class GameManager : MonoBehaviour
 
     public void DrowCard(Transform hand)//カードをドローする時の処理
     {
-        int cardNumber = Random.Range(1, 4);
+        int cardNumber = Random.Range(1, 6);//ココで引くカードの種類調整
         CreateCard(cardNumber, 0, hand);
         SetCanUsePanelHand();
     }
@@ -179,39 +226,39 @@ public class GameManager : MonoBehaviour
     //以下、敵生成コルーチン
     IEnumerator EnemyGanarater()
     {
-        yield return new WaitForSeconds(2.0f);
-        int rn = Random.Range(1, 6);
+        yield return new WaitForSeconds(4.0f);
+        int rn = Random.Range(1, 6);//どのますに生成するか
         switch (rn)
         {
             
             case 1:
                 if (EF1.transform.childCount == 0)
                 {
-                    CreateCard(Random.Range(1,4), 180, EF1);//改造時はココ変更
+                    CreateCard(Random.Range(1,6), 180, EF1);//改造時はココ変更
                 }
                 break;
             case 2:
                 if (EF2.transform.childCount == 0)
                 {
-                    CreateCard(1, 180, EF2);//改造時はココ変更
+                    CreateCard(Random.Range(1, 6), 180, EF2);//改造時はココ変更
                 }
                 break;
             case 3:
                 if (EF3.transform.childCount == 0)
                 {
-                    CreateCard(1, 180, EF3);//改造時はココ変更
+                    CreateCard(Random.Range(1, 6), 180, EF3);//改造時はココ変更
                 }
                 break;
             case 4:
                 if (EF4.transform.childCount == 0)
                 {
-                    CreateCard(1, 180, EF4);//改造時はココ変更
+                    CreateCard(Random.Range(1, 6), 180, EF4);//改造時はココ変更
                 }
                 break;
             case 5:
                 if (EF5.transform.childCount == 0)
                 {
-                    CreateCard(1, 180, EF5);//改造時はココ変更
+                    CreateCard(Random.Range(1, 6), 180, EF5);//改造時はココ変更
                 }
                 break;
             default:
@@ -219,6 +266,25 @@ public class GameManager : MonoBehaviour
         }
         enemyGanarateBool = true;
     }
+
+
+
+    //
+    //以下、リーダーHP関連
+    public void LeaderHP(bool whichLeader)//boolはtureなら自分リーダー、falseなら敵リーダー
+    {
+        if (whichLeader == true)//もしplayerリーダーなら
+        {
+            playerLeaderHP -= 1;//攻撃力が変わればここも引数で受け取るようにする
+            playerLeaderHPText.text = playerLeaderHP.ToString();
+        }
+        else
+        {
+            enemyLeaderHP -= 1;
+            enemyLeaderHPText.text = enemyLeaderHP.ToString();
+        }
+    }
+
 
 
 }

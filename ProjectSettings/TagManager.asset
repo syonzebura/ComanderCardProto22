@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Card
+  - BoxArea
+  - BalletArea
+  - EnemyLeader
+  - PlayerLeader
   layers:
   - Default
   - TransparentFX
